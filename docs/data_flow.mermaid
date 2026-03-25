@@ -1,0 +1,88 @@
+---
+title: Git Intel — Data Flow (per run_once cycle)
+---
+sequenceDiagram
+    autonumber
+
+    participant CFG  as 📄 config.json
+    participant MAIN as 🚀 main.py
+    participant GP   as 🔍 git_parser.py
+    participant GIT  as 🗂️ Git Repo
+    participant LC   as 🤖 llm_client.py
+    participant OAI  as ☁️ OpenAI API
+    participant LW   as 💾 log_writer.py
+    participant FS   as 🗄️ store/ (disk)
+    participant DB   as 🌐 Dashboard
+
+    Note over MAIN,CFG: Startup
+    MAIN ->> CFG: load config.json
+    CFG -->> MAIN: {api_key, model, repos, schedule, …}
+
+    rect rgb(219, 234, 254)
+        Note over MAIN,FS: run_once() — repeated each scheduled interval
+        loop For each configured repository
+
+            Note over MAIN,GP: Step 1 — Snapshot working tree
+            MAIN ->> GP: get_file_tree(repo_path)
+            GP ->> GIT: os.walk / Path.iterdir()
+            GIT -->> GP: directory + file entries
+            GP -->> MAIN: nested tree dict
+            MAIN ->> LW: write_file_tree(name, tree)
+            LW ->> FS: store/&lt;repo&gt;-tree.json ✏️
+
+            Note over MAIN,GIT: Step 2 — Detect new commits
+            MAIN ->> LW: get_last_sha(name)
+            LW ->> FS: read store/&lt;repo&gt;.json
+            FS -->> LW: existing entries (or empty)
+            LW -->> MAIN: last_seen_sha (or None)
+            MAIN ->> GP: get_commits(path, last_sha, lookback)
+            GP ->> GIT: repo.iter_commits(branch)
+            GIT -->> GP: commit objects
+            GP -->> MAIN: list of commit dicts<br/>{sha, author, timestamp,<br/> message, stats, changed_files}
+
+            alt New commits found
+                Note over MAIN,OAI: Step 3a — Summarise with LLM (call ①)
+                MAIN ->> LC: summarise(api_key, model, commits)
+                LC ->> LC: build_prompt(commits)
+                LC ->> OAI: chat.completions.create(model, messages)
+                OAI -->> LC: ChatCompletion<br/>{choices[0].message.content,<br/> usage.prompt_tokens,<br/> usage.completion_tokens,<br/> usage.total_tokens}
+                LC ->> LC: _extract_usage(response)
+                LC -->> MAIN: (summary_str, token_usage_dict)
+
+                Note over MAIN,OAI: Step 3b — Suggest next steps (call ②)
+                MAIN ->> LC: suggest_next_steps(api_key, model, summary, commits)
+                LC ->> LC: build_next_steps_prompt(summary, commits)
+                LC ->> OAI: chat.completions.create(model, messages)
+                OAI -->> LC: ChatCompletion<br/>{choices[0].message.content (JSON array),<br/> usage tokens}
+                LC ->> LC: json.loads(raw) → list[str]
+                LC -->> MAIN: (next_steps_list, token_usage_dict)
+
+                Note over MAIN,FS: Step 3c — Persist results
+                MAIN ->> LW: make_entry(summary, commits, token_usage, next_steps)
+                LW -->> MAIN: entry dict<br/>{timestamp, commit_range,<br/> summary, next_steps,<br/> files_changed, insertions,<br/> deletions, changed_files,<br/> token_usage}
+                MAIN ->> LW: append_entry(name, entry)
+                LW ->> FS: store/&lt;repo&gt;.json ✏️
+
+                MAIN ->> LW: append_token_log(name, model, token_usage)
+                LW ->> FS: store/token_usage.json ✏️
+                MAIN ->> LW: append_token_log(name, model, steps_usage)
+                LW ->> FS: store/token_usage.json ✏️
+
+            else No new commits
+                MAIN ->> MAIN: print "[repo] No new commits"
+            end
+        end
+
+        Note over MAIN,FS: Step 4 — Update dashboard manifest
+        MAIN ->> LW: write_index(repo_names)
+        LW ->> FS: store/index.json ✏️
+    end
+
+    Note over DB,FS: Dashboard reads (on-demand, via browser)
+    DB ->> FS: GET /store/index.json
+    FS -->> DB: ["repo-a", "repo-b"]
+    DB ->> FS: GET /store/&lt;repo&gt;.json
+    FS -->> DB: [{id, timestamp, summary,<br/> next_steps, token_usage, …}, …]
+    DB ->> FS: GET /store/&lt;repo&gt;-tree.json
+    FS -->> DB: {name, type, children:[…]}
+    Note over DB: Renders timeline (summary + next steps)<br/>and file tree in browser

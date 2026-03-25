@@ -1,0 +1,182 @@
+[
+  {
+    "id": 1,
+    "timestamp": "2026-03-20T19:25:55.550106+00:00",
+    "repo": "LLM_Course_Materials",
+    "model": "openai/gpt-oss-120b",
+    "prompt_tokens": 0,
+    "completion_tokens": 0,
+    "total_tokens": 0
+  },
+  {
+    "id": 2,
+    "timestamp": "2026-03-20T19:25:56.977984+00:00",
+    "repo": "Agentic_AI_Example_System",
+    "model": "openai/gpt-oss-120b",
+    "prompt_tokens": 0,
+    "completion_tokens": 0,
+    "total_tokens": 0
+  },
+  {
+    "id": 3,
+    "timestamp": "2026-03-20T19:37:45.925767+00:00",
+    "repo": "LLM_Course_Materials",
+    "model": "openai/gpt-oss-120b",
+    "prompt_tokens": 215,
+    "completion_tokens": 299,
+    "total_tokens": 514
+  },
+  {
+    "id": 4,
+    "timestamp": "2026-03-20T19:49:50.100644+00:00",
+    "repo": "LLM_Course_Materials",
+    "model": "openai/gpt-oss-120b",
+    "prompt_tokens": 216,
+    "completion_tokens": 152,
+    "total_tokens": 368
+  },
+  {
+    "id": 5,
+    "timestamp": "2026-03-23T13:15:56.795724+00:00",
+    "repo": "LLM_Course_Materials",
+    "model": "openai/gpt-oss-120b",
+    "prompt_tokens": 278,
+    "completion_tokens": 184,
+    "total_tokens": 462
+  },
+  {
+    "id": 6,
+    "timestamp": "2026-03-23T15:54:11.833678+00:00",
+    "repo": "Agentic_AI_Example_System",
+    "model": "openai/gpt-oss-120b",
+    "prompt_tokens": 218,
+    "completion_tokens": 136,
+    "total_tokens": 354
+  },
+  {
+    "id": 7,
+    "timestamp": "2026-03-23T16:39:34.300811+00:00",
+    "repo": "Agentic_AI_Example_System",
+    "model": "openai/gpt-oss-120b",
+    "prompt_tokens": 0,
+    "completion_tokens": 0,
+    "total_tokens": 0
+  },
+  {
+    "id": 8,
+    "timestamp": "2026-03-23T16:39:34.338115+00:00",
+    "repo": "Agentic_AI_Example_System",
+    "model": "openai/gpt-oss-120b",
+    "prompt_tokens": 0,
+    "completion_tokens": 0,
+    "total_tokens": 0
+  },
+  {
+    "id": 9,
+    "timestamp": "2026-03-23T16:42:35.813986+00:00",
+    "repo": "Agentic_AI_Example_System",
+    "model": "openai/gpt-oss-120b",
+    "prompt_tokens": 216,
+    "completion_tokens": 152,
+    "total_tokens": 368
+  },
+  {
+    "id": 10,
+    "timestamp": "2026-03-23T16:42:35.826732+00:00",
+    "repo": "Agentic_AI_Example_System",
+    "model": "openai/gpt-oss-120b",
+    "prompt_tokens": 314,
+    "completion_tokens": 155,
+    "total_tokens": 469
+  },
+  {
+    "id": 11,
+    "timestamp": "2026-03-23T17:43:20.101563+00:00",
+    "repo": "LLM_Course_Materials",
+    "model": "openai/gpt-oss-120b",
+    "prompt_tokens": 232,
+    "completion_tokens": 288,
+    "total_tokens": 520
+  },
+  {
+    "id": 12,
+    "timestamp": "2026-03-23T17:43:20.137637+00:00",
+    "repo": "LLM_Course_Materials",
+    "model": "openai/gpt-oss-120b",
+    "prompt_tokens": 351,
+    "completion_tokens": 195,
+    "total_tokens": 546
+  },
+  {
+    "id": 13,
+    "timestamp": "2026-03-25T15:28:18.596918+00:00",
+    "repo": "AI_Safety_And_Guadrails",
+    "model": "openai/gpt-oss-120b",
+    "prompt_tokens": 222,
+    "completion_tokens": 182,
+    "total_tokens": 404
+  },
+  {
+    "id": 14,
+    "timestamp": "2026-03-25T15:28:18.607220+00:00",
+    "repo": "AI_Safety_And_Guadrails",
+    "model": "openai/gpt-oss-120b",
+    "prompt_tokens": 342,
+    "completion_tokens": 176,
+    "total_tokens": 518
+  },
+  {
+    "id": 15,
+    "timestamp": "2026-03-25T15:32:26.250628+00:00",
+    "repo": "AI_Safety_And_Guadrails",
+    "model": "openai/gpt-oss-120b",
+    "prompt_tokens": 249,
+    "completion_tokens": 247,
+    "total_tokens": 496
+  },
+  {
+    "id": 16,
+    "timestamp": "2026-03-25T15:32:26.289189+00:00",
+    "repo": "AI_Safety_And_Guadrails",
+    "model": "openai/gpt-oss-120b",
+    "prompt_tokens": 353,
+    "completion_tokens": 219,
+    "total_tokens": 572
+  },
+  {
+    "id": 17,
+    "timestamp": "2026-03-25T15:37:30.912312+00:00",
+    "repo": "AI_Safety_And_Guadrails",
+    "model": "openai/gpt-oss-120b",
+    "prompt_tokens": 217,
+    "completion_tokens": 122,
+    "total_tokens": 339
+  },
+  {
+    "id": 18,
+    "timestamp": "2026-03-25T15:37:30.943246+00:00",
+    "repo": "AI_Safety_And_Guadrails",
+    "model": "openai/gpt-oss-120b",
+    "prompt_tokens": 318,
+    "completion_tokens": 198,
+    "total_tokens": 516
+  },
+  {
+    "id": 19,
+    "timestamp": "2026-03-25T19:52:19.147934+00:00",
+    "repo": "AI_Safety_And_Guadrails",
+    "model": "openai/gpt-oss-120b",
+    "prompt_tokens": 235,
+    "completion_tokens": 205,
+    "total_tokens": 440
+  },
+  {
+    "id": 20,
+    "timestamp": "2026-03-25T19:52:19.183534+00:00",
+    "repo": "AI_Safety_And_Guadrails",
+    "model": "openai/gpt-oss-120b",
+    "prompt_tokens": 371,
+    "completion_tokens": 189,
+    "total_tokens": 560
+  }
+]

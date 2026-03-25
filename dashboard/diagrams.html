@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Git Intel — Architecture Diagrams</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* ── Diagrams-page overrides ── */
+    body { overflow-x: hidden; }
+
+    #diag-shell {
+      padding-top: var(--topbar-h);
+      max-width: 1100px;
+      margin: 0 auto;
+      padding-left: 28px;
+      padding-right: 28px;
+      padding-bottom: 48px;
+    }
+
+    .diag-section {
+      margin-top: 36px;
+    }
+
+    .diag-section h2 {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+
+    .diag-section p.diag-desc {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+      line-height: 1.6;
+    }
+
+    .diag-card {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--bg-sidebar);
+      padding: 24px 20px;
+      overflow-x: auto;
+    }
+
+    /* Mermaid renders an SVG inside the .mermaid div */
+    .mermaid {
+      display: flex;
+      justify-content: center;
+    }
+
+    .mermaid svg {
+      max-width: 100%;
+      height: auto;
+    }
+
+    .tab-bar {
+      display: flex;
+      gap: 8px;
+      margin-top: 28px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0;
+    }
+
+    .tab-btn {
+      padding: 8px 18px;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-muted);
+      background: transparent;
+      border: none;
+      border-bottom: 2px solid transparent;
+      cursor: pointer;
+      transition: color 0.15s, border-color 0.15s;
+      margin-bottom: -1px;
+    }
+
+    .tab-btn:hover { color: var(--text); }
+    .tab-btn.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+    }
+
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    #back-link {
+      display: inline-block;
+      margin-top: 20px;
+      font-size: 14px;
+      color: var(--accent);
+      text-decoration: none;
+    }
+    #back-link:hover { text-decoration: underline; }
+
+    /* Token usage table */
+    #token-table-wrap {
+      overflow-x: auto;
+    }
+    table.token-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    table.token-table th {
+      text-align: left;
+      padding: 8px 12px;
+      border-bottom: 2px solid var(--border);
+      color: var(--text-muted);
+      font-weight: 600;
+      font-size: 11px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    table.token-table td {
+      padding: 8px 12px;
+      border-bottom: 1px solid var(--border);
+      color: var(--text);
+    }
+    table.token-table tr:last-child td { border-bottom: none; }
+    table.token-table tr:hover td { background: var(--bg); }
+    .num { font-variant-numeric: tabular-nums; text-align: right; }
+    #token-empty { color: var(--text-muted); font-size: 14px; padding: 16px 0; }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .summary-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px 16px;
+    }
+    .summary-card .sc-label {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+    .summary-card .sc-value {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--accent);
+      font-variant-numeric: tabular-nums;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── Top bar ── -->
+  <header id="topbar">
+    <h1>Git Intel</h1>
+    <button id="sync-btn" type="button" onclick="location.reload()">↻ Refresh</button>
+  </header>
+
+  <div id="diag-shell">
+
+    <a href="index.html" id="back-link">← Back to dashboard</a>
+
+    <!-- ── Tab navigation ── -->
+    <div class="tab-bar" role="tablist">
+      <button class="tab-btn active" role="tab" data-tab="arch">Component Architecture</button>
+      <button class="tab-btn"        role="tab" data-tab="flow">Data Flow</button>
+      <button class="tab-btn"        role="tab" data-tab="tokens">Token Usage Log</button>
+    </div>
+
+    <!-- ── Tab: Architecture ── -->
+    <div class="tab-panel active" id="tab-arch">
+      <div class="diag-section">
+        <h2>Component Architecture</h2>
+        <p class="diag-desc">
+          Shows every module in the system, its responsibilities, and how data flows between
+          the Python backend, the local git repositories, the OpenAI API, the JSON store, and
+          the browser dashboard. The LLM is now called twice per commit batch — once to
+          summarise changes and once to suggest next development steps.
+        </p>
+        <div class="diag-card">
+          <div class="mermaid">
+graph TD
+    CFG["📄 config.json\n─────────────\nopenai_api_key · model\nrepositories\nschedule_minutes\nlookback_commits"]
+
+    subgraph PYTHON ["Python Backend"]
+        MAIN["🚀 main.py\nload_config · run_once\nscheduler loop"]
+        GP["🔍 git_parser.py\nget_commits\nget_file_tree"]
+        LC["🤖 llm_client.py\nbuild_prompt · summarise\nbuild_next_steps_prompt\nsuggest_next_steps\n_extract_usage"]
+        LW["💾 log_writer.py\nappend_entry · write_file_tree\nappend_token_log · write_index\nget_token_summary"]
+    end
+
+    subgraph STORE ["store/  (JSON on disk)"]
+        SL["📊 repo.json\nChange log + summary\n+ next_steps + token_usage"]
+        ST["🌳 repo-tree.json\nFile tree snapshot"]
+        STK["🪙 token_usage.json\nAll API call records"]
+        SI["📋 index.json\nRepo manifest"]
+    end
+
+    OAI["☁️ OpenAI API\n① summarise call\n② next_steps call"]
+    GIT["🗂️ Local Git Repos"]
+
+    subgraph DASH ["Dashboard  (browser)"]
+        HTTP["🌐 http.server"]
+        JS["app.js · diagrams.html\nRenders summary + next steps"]
+    end
+
+    CFG --> MAIN
+    MAIN --> GP --> GIT
+    MAIN -->|"① summarise\n② suggest_next_steps"| LC
+    LC --> OAI
+    OAI -->|"① summary + tokens\n② next_steps list + tokens"| LC
+    LC -->|"results back to orchestrator"| MAIN
+    MAIN --> LW
+    LW --> SL & ST & STK & SI
+    SL & ST & SI --> HTTP --> JS
+
+    classDef cfg   fill:#fff9e6,stroke:#d4a017,color:#333
+    classDef py    fill:#dbeafe,stroke:#3b82f6,color:#1e3a5f
+    classDef store fill:#dcfce7,stroke:#16a34a,color:#14532d
+    classDef ext   fill:#fce7f3,stroke:#db2777,color:#831843
+    classDef dash  fill:#f3e8ff,stroke:#9333ea,color:#3b0764
+    classDef git   fill:#fef3c7,stroke:#d97706,color:#78350f
+
+    class CFG cfg
+    class MAIN,GP,LC,LW py
+    class SL,ST,STK,SI store
+    class OAI ext
+    class HTTP,JS dash
+    class GIT git
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Tab: Data Flow ── -->
+    <div class="tab-panel" id="tab-flow">
+      <div class="diag-section">
+        <h2>Data Flow — run_once() cycle</h2>
+        <p class="diag-desc">
+          Step-by-step sequence of every message that flows through the system during a single
+          monitoring cycle: from config loading, through commit detection, LLM summarisation,
+          and next-steps generation, to persisting the results and serving them to the dashboard.
+          When new commits are detected the LLM is called twice — first to produce a plain-English
+          summary, then to suggest actionable next development steps.
+        </p>
+        <div class="diag-card">
+          <div class="mermaid">
+sequenceDiagram
+    autonumber
+    participant MAIN as main.py
+    participant GP   as git_parser
+    participant GIT  as Git Repo
+    participant LC   as llm_client
+    participant OAI  as OpenAI API
+    participant LW   as log_writer
+    participant FS   as store/ (disk)
+    participant DB   as Dashboard
+
+    Note over MAIN: load_config()
+
+    rect rgb(219,234,254)
+        Note over MAIN,FS: run_once() — each scheduled cycle
+        loop Each repository
+            MAIN->>GP: get_file_tree(path)
+            GP->>GIT: Path.iterdir()
+            GIT-->>GP: entries
+            GP-->>MAIN: nested tree dict
+            MAIN->>LW: write_file_tree(name, tree)
+            LW->>FS: repo-tree.json ✏️
+
+            MAIN->>LW: get_last_sha(name)
+            LW->>FS: read repo.json
+            FS-->>LW: entries / empty
+            LW-->>MAIN: last_sha or None
+            MAIN->>GP: get_commits(path, last_sha, lookback)
+            GP->>GIT: iter_commits(branch)
+            GIT-->>GP: commit objects
+            GP-->>MAIN: commit dicts
+
+            alt New commits
+                Note over MAIN,OAI: LLM call ① — summarise changes
+                MAIN->>LC: summarise(api_key, model, commits)
+                LC->>OAI: chat.completions.create(...)
+                OAI-->>LC: content + usage tokens
+                LC-->>MAIN: (summary_str, token_usage)
+
+                Note over MAIN,OAI: LLM call ② — suggest next steps
+                MAIN->>LC: suggest_next_steps(api_key, model, summary, commits)
+                LC->>OAI: chat.completions.create(...)
+                OAI-->>LC: JSON array + usage tokens
+                LC-->>MAIN: (next_steps_list, steps_usage)
+
+                MAIN->>LW: append_entry(name, entry{summary, next_steps})
+                LW->>FS: repo.json ✏️
+                MAIN->>LW: append_token_log × 2
+                LW->>FS: token_usage.json ✏️
+            else No new commits
+                MAIN->>MAIN: log "no new commits"
+            end
+        end
+        MAIN->>LW: write_index(repo_names)
+        LW->>FS: index.json ✏️
+    end
+
+    Note over DB,FS: On-demand dashboard fetch
+    DB->>FS: GET /store/index.json
+    FS-->>DB: repo names
+    DB->>FS: GET /store/repo.json
+    FS-->>DB: entries {summary, next_steps, …}
+    DB->>FS: GET /store/repo-tree.json
+    FS-->>DB: file tree
+    Note over DB: Renders summary + 💡 next steps per entry
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Tab: Token Usage ── -->
+    <div class="tab-panel" id="tab-tokens">
+      <div class="diag-section">
+        <h2>Token Usage Log</h2>
+        <p class="diag-desc">
+          Live view of <code>store/token_usage.json</code> — every OpenAI API call made by
+          Git Intel, with per-call and cumulative totals.
+        </p>
+
+        <div class="summary-grid" id="token-summary-grid">
+          <!-- Populated by JS -->
+        </div>
+
+        <div class="diag-card">
+          <div id="token-table-wrap">
+            <p id="token-empty">Loading token data…</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /#diag-shell -->
+
+  <!-- Mermaid.js from CDN (no build step required) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.6.1/mermaid.min.js"
+          crossorigin="anonymous"
+          referrerpolicy="no-referrer"></script>
+  <script>
+    // ── Detect dark mode and configure Mermaid accordingly ──────────────────
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: prefersDark ? 'dark' : 'default',
+      flowchart: { curve: 'basis', useMaxWidth: true },
+      sequence:  { useMaxWidth: true, wrap: true },
+      securityLevel: 'loose',
+    });
+
+    // ── Tab switching ────────────────────────────────────────────────────────
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const target = btn.dataset.tab;
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById('tab-' + target).classList.add('active');
+        // Re-run Mermaid for newly-visible diagrams (it skips hidden elements)
+        if (target !== 'tokens') mermaid.run();
+        if (target === 'tokens') loadTokenData();
+      });
+    });
+
+    // ── Token table ──────────────────────────────────────────────────────────
+    function fmt(n) {
+      return (n ?? 0).toLocaleString();
+    }
+
+    async function loadTokenData() {
+      const wrap  = document.getElementById('token-table-wrap');
+      const grid  = document.getElementById('token-summary-grid');
+      let records = null;
+
+      try {
+        const resp = await fetch('/store/token_usage.json');
+        if (!resp.ok) throw new Error('HTTP ' + resp.status);
+        records = await resp.json();
+      } catch {
+        wrap.innerHTML = '<p id="token-empty">No token data yet — run <code>main.py</code> first.</p>';
+        grid.innerHTML = '';
+        return;
+      }
+
+      if (!Array.isArray(records) || records.length === 0) {
+        wrap.innerHTML = '<p id="token-empty">No token records yet.</p>';
+        grid.innerHTML = '';
+        return;
+      }
+
+      // Summary totals
+      let totalPrompt = 0, totalCompletion = 0, totalAll = 0;
+      const byCalls = {};
+      records.forEach(r => {
+        totalPrompt     += r.prompt_tokens     || 0;
+        totalCompletion += r.completion_tokens || 0;
+        totalAll        += r.total_tokens      || 0;
+        byCalls[r.repo] = (byCalls[r.repo] || 0) + 1;
+      });
+
+      grid.innerHTML = `
+        <div class="summary-card"><div class="sc-label">Total API Calls</div><div class="sc-value">${fmt(records.length)}</div></div>
+        <div class="summary-card"><div class="sc-label">Total Tokens</div><div class="sc-value">${fmt(totalAll)}</div></div>
+        <div class="summary-card"><div class="sc-label">Prompt Tokens</div><div class="sc-value">${fmt(totalPrompt)}</div></div>
+        <div class="summary-card"><div class="sc-label">Completion Tokens</div><div class="sc-value">${fmt(totalCompletion)}</div></div>
+      `;
+
+      // Full log table (newest first)
+      const sorted = [...records].reverse();
+      const rows = sorted.map(r => `
+        <tr>
+          <td class="num">${r.id ?? '—'}</td>
+          <td>${new Date(r.timestamp).toLocaleString()}</td>
+          <td>${esc(r.repo ?? '')}</td>
+          <td>${esc(r.model ?? '')}</td>
+          <td class="num">${fmt(r.prompt_tokens)}</td>
+          <td class="num">${fmt(r.completion_tokens)}</td>
+          <td class="num">${fmt(r.total_tokens)}</td>
+        </tr>
+      `).join('');
+
+      wrap.innerHTML = `
+        <table class="token-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Timestamp</th>
+              <th>Repo</th>
+              <th>Model</th>
+              <th class="num">Prompt</th>
+              <th class="num">Completion</th>
+              <th class="num">Total</th>
+            </tr>
+          </thead>
+          <tbody>${rows}</tbody>
+        </table>
+      `;
+    }
+
+    function esc(s) {
+      return String(s)
+        .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+        .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+  </script>
+</body>
+</html>

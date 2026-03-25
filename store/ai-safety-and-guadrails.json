@@ -1,0 +1,114 @@
+[
+  {
+    "id": 1,
+    "timestamp": "2026-03-25T15:28:18.595148+00:00",
+    "commit_range": {
+      "from": "56a63ca2562536471b11155e6b96fc13d6b5c85e",
+      "to": "56a63ca2562536471b11155e6b96fc13d6b5c85e"
+    },
+    "summary": "The first set of changes creates the foundation of the project. It adds three new files: a configuration file that tells the version‑control system how to treat different kinds of content, a file that lists which files should be ignored by version control, and a README that introduces the project and explains its purpose. No existing files were altered or removed. This commit essentially sets up the basic structure and documentation needed to start working on the codebase.",
+    "next_steps": [
+      "Add a CI/CD workflow (e.g., GitHub Actions) to run builds and tests on each push",
+      "Create a LICENSE file to define the project's open‑source terms",
+      "Initialize a src/ directory with a basic project scaffold and placeholder module",
+      "Set up a linting and formatting configuration (e.g., ESLint/Prettier or Black) and add it to the repo",
+      "Write contribution guidelines (CONTRIBUTING.md) outlining coding standards and pull‑request process"
+    ],
+    "files_changed": 3,
+    "insertions": 185,
+    "deletions": 0,
+    "changed_files": [
+      ".gitattributes",
+      ".gitignore",
+      "README.md"
+    ],
+    "token_usage": {
+      "prompt_tokens": 222,
+      "completion_tokens": 182,
+      "total_tokens": 404
+    }
+  },
+  {
+    "id": 2,
+    "timestamp": "2026-03-25T15:32:26.243343+00:00",
+    "commit_range": {
+      "from": "eebda55dfee333f851139e8785eadf7f653eb80a",
+      "to": "eebda55dfee333f851139e8785eadf7f653eb80a"
+    },
+    "summary": "The latest update adds a new set of introductory materials about agentic AI safety. Four new files were created: two LaTeX documents that outline safety guidelines and provide a reference sheet with diagrams, a third LaTeX file that discusses how to evaluate safety and performance, and a Jupyter notebook that serves as a hands‑on lab for testing these concepts. Together, these additions give readers both the theoretical background and practical exercises needed to start working with agentic AI safety and guardrails.",
+    "next_steps": [
+      "Add a CI workflow to automatically compile the LaTeX files into PDFs and verify successful build",
+      "Create a requirements.txt or environment.yml for the Jupyter notebook to ensure reproducible execution of the hands‑on lab",
+      "Integrate the new safety guidelines and reference sheet into the project's documentation website with navigation links",
+      "Write unit tests for any Python functions used in the notebook to validate safety metric calculations"
+    ],
+    "files_changed": 4,
+    "insertions": 2518,
+    "deletions": 0,
+    "changed_files": [
+      "Agentic AI Safety and Guardrails.tex",
+      "Diagrams and Reference Sheet.tex",
+      "Evaluating Agentic AI Safety and Performance.tex",
+      "Lab - Evaluating Agentic AI.ipynb"
+    ],
+    "token_usage": {
+      "prompt_tokens": 249,
+      "completion_tokens": 247,
+      "total_tokens": 496
+    }
+  },
+  {
+    "id": 3,
+    "timestamp": "2026-03-25T15:37:30.907399+00:00",
+    "commit_range": {
+      "from": "8f9794663426b14ab06321731d0016bf22fa136d",
+      "to": "8f9794663426b14ab06321731d0016bf22fa136d"
+    },
+    "summary": "The recent update refreshed the project’s documentation and its list of required packages. The main README file now contains new information and clearer instructions for users. At the same time, the requirements list was expanded slightly, adding a few more dependencies. These changes help newcomers understand how to set up and run the software more easily.",
+    "next_steps": [
+      "Add a CHANGELOG entry summarizing the README and requirements updates",
+      "Pin the newly added dependencies to specific versions to avoid future breakage",
+      "Create a CI workflow that validates the documentation builds and checks for missing dependencies",
+      "Update the project's contribution guide to reference the refreshed setup instructions",
+      "Add integration tests that verify the application runs with the updated dependency set"
+    ],
+    "files_changed": 2,
+    "insertions": 130,
+    "deletions": 1,
+    "changed_files": [
+      "README.md",
+      "requirements.txt"
+    ],
+    "token_usage": {
+      "prompt_tokens": 217,
+      "completion_tokens": 122,
+      "total_tokens": 339
+    }
+  },
+  {
+    "id": 4,
+    "timestamp": "2026-03-25T19:52:19.139064+00:00",
+    "commit_range": {
+      "from": "8a04959fb19931f4c0ff861aecf4c3744c0741eb",
+      "to": "8a04959fb19931f4c0ff861aecf4c3744c0741eb"
+    },
+    "summary": "A brand‑new notebook called **Working‑Lab – Evaluating Agentic AI.ipynb** was added to the project. This file contains all of the code, explanations, and results needed to run a hands‑on lab that explores how “agentic” artificial intelligence behaves. It introduces the lab’s purpose, sets up the necessary environment, and walks the reader through a series of experiments and observations. In short, the repository now includes a complete, self‑contained guide for testing and understanding agentic AI.",
+    "next_steps": [
+      "Add a requirements.txt or environment.yml file specifying all dependencies needed to run the new notebook",
+      "Set up automated notebook execution in CI (e.g., using nbconvert or nbval) to catch runtime errors early",
+      "Create a concise README section that explains the purpose of the Working‑Lab notebook and how to launch it",
+      "Extract reusable functions from the notebook into a Python module and add unit tests for them"
+    ],
+    "files_changed": 1,
+    "insertions": 1531,
+    "deletions": 0,
+    "changed_files": [
+      "Working-Lab - Evaluating Agentic AI.ipynb"
+    ],
+    "token_usage": {
+      "prompt_tokens": 235,
+      "completion_tokens": 205,
+      "total_tokens": 440
+    }
+  }
+]

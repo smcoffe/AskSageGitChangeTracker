@@ -1,0 +1,87 @@
+---
+title: Git Intel — Component Architecture
+---
+graph TD
+    CFG["📄 config.json\n─────────────\nopenai_api_key\nmodel\nrepositories\nschedule_minutes\nlookback_commits\ndashboard_port"]
+
+    subgraph PYTHON ["Python Backend  (git-intel/)"]
+        MAIN["🚀 main.py\n─────────────\nload_config()\nrun_once()\nscheduler loop"]
+        GP["🔍 git_parser.py\n─────────────\nget_commits()\nget_file_tree()"]
+        LC["🤖 llm_client.py\n─────────────\nbuild_prompt()\nsummarise()\nbuild_next_steps_prompt()\nsuggest_next_steps()\n_extract_usage()"]
+        LW["💾 log_writer.py\n─────────────\nappend_entry()\nwrite_file_tree()\nappend_token_log()\nwrite_index()\nget_token_summary()"]
+    end
+
+    subgraph STORE ["store/  (JSON files on disk)"]
+        SL["📊 &lt;repo&gt;.json\nChange log entries\n+ summary + next_steps\n+ token_usage per entry"]
+        ST["🌳 &lt;repo&gt;-tree.json\nFile tree snapshot"]
+        STK["🪙 token_usage.json\nAll API call records\nwith timestamps"]
+        SI["📋 index.json\nRepo name manifest"]
+    end
+
+    subgraph EXTERNAL ["External Services"]
+        OAI["☁️ OpenAI API\nchat.completions.create\n① summarise call\n② next_steps call"]
+    end
+
+    subgraph DASHBOARD ["Dashboard  (dashboard/)"]
+        HTTP["🌐 Python http.server\nServes /store/ + /dashboard/"]
+        HTML["index.html\nPage shell"]
+        JS["app.js\nFetch + render\n(summary + next steps)"]
+        CSS["style.css\nLight / dark theme"]
+        DIAG["diagrams.html\nArchitecture viewer"]
+    end
+
+    GIT["🗂️ Git Repositories\n(local, on disk)"]
+
+    %% Config flows into main
+    CFG --> MAIN
+
+    %% Main orchestrates everything
+    MAIN -->|"get_commits(path, last_sha, lookback)"| GP
+    MAIN -->|"get_file_tree(path)"| GP
+    GP -->|"commit dicts list"| MAIN
+    GP -->|"nested tree dict"| MAIN
+    GP -->|"iter_commits()"| GIT
+
+    MAIN -->|"① summarise(api_key, model, commits)"| LC
+    MAIN -->|"② suggest_next_steps(api_key, model, summary, commits)"| LC
+    LC -->|"chat.completions.create(...)"| OAI
+    OAI -->|"choices[0].message\n+ usage tokens"| LC
+    LC -->|"① (summary_str, token_usage_dict)"| MAIN
+    LC -->|"② (next_steps_list, token_usage_dict)"| MAIN
+
+    MAIN -->|"append_entry(name, entry)\n{summary, next_steps, …}"| LW
+    MAIN -->|"write_file_tree(name, tree)"| LW
+    MAIN -->|"append_token_log ×2\n(summary + next_steps)"| LW
+    MAIN -->|"write_index(repo_names)"| LW
+
+    LW --> SL
+    LW --> ST
+    LW --> STK
+    LW --> SI
+
+    %% Dashboard reads from store
+    SL --> HTTP
+    ST --> HTTP
+    STK --> HTTP
+    SI --> HTTP
+    HTTP --> JS
+    JS -->|"fetch /store/index.json"| SI
+    JS -->|"fetch /store/&lt;repo&gt;.json"| SL
+    JS -->|"fetch /store/&lt;repo&gt;-tree.json"| ST
+    HTML --- JS
+    HTML --- CSS
+    HTML --- DIAG
+
+    classDef config  fill:#fff9e6,stroke:#d4a017,color:#333
+    classDef python  fill:#dbeafe,stroke:#3b82f6,color:#1e3a5f
+    classDef store   fill:#dcfce7,stroke:#16a34a,color:#14532d
+    classDef ext     fill:#fce7f3,stroke:#db2777,color:#831843
+    classDef dash    fill:#f3e8ff,stroke:#9333ea,color:#3b0764
+    classDef git     fill:#fef3c7,stroke:#d97706,color:#78350f
+
+    class CFG config
+    class MAIN,GP,LC,LW python
+    class SL,ST,STK,SI store
+    class OAI ext
+    class HTTP,HTML,JS,CSS,DIAG dash
+    class GIT git

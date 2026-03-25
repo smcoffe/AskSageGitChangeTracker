@@ -1,0 +1,220 @@
+{
+  "name": "C:\\Users\\sean.coffey\\OneDrive - West Point\\Documents\\ACI Ongoing Projects\\EW Projects\\Agentic_AI_Example_System",
+  "type": "dir",
+  "children": [
+    {
+      "name": "__pycache__",
+      "type": "dir",
+      "children": [
+        {
+          "name": "agent.cpython-310.pyc",
+          "type": "file",
+          "children": []
+        },
+        {
+          "name": "agent.cpython-314.pyc",
+          "type": "file",
+          "children": []
+        },
+        {
+          "name": "config.cpython-310.pyc",
+          "type": "file",
+          "children": []
+        },
+        {
+          "name": "config.cpython-314.pyc",
+          "type": "file",
+          "children": []
+        },
+        {
+          "name": "data_loader.cpython-310.pyc",
+          "type": "file",
+          "children": []
+        },
+        {
+          "name": "data_loader.cpython-314.pyc",
+          "type": "file",
+          "children": []
+        },
+        {
+          "name": "logger_setup.cpython-310.pyc",
+          "type": "file",
+          "children": []
+        },
+        {
+          "name": "logger_setup.cpython-314.pyc",
+          "type": "file",
+          "children": []
+        },
+        {
+          "name": "main.cpython-310.pyc",
+          "type": "file",
+          "children": []
+        },
+        {
+          "name": "neural_network.cpython-310.pyc",
+          "type": "file",
+          "children": []
+        },
+        {
+          "name": "neural_network.cpython-314.pyc",
+          "type": "file",
+          "children": []
+        },
+        {
+          "name": "visualizer.cpython-310.pyc",
+          "type": "file",
+          "children": []
+        },
+        {
+          "name": "visualizer.cpython-314.pyc",
+          "type": "file",
+          "children": []
+        }
+      ]
+    },
+    {
+      "name": "logs",
+      "type": "dir",
+      "children": [
+        {
+          "name": "session_20260312_091336.jsonl",
+          "type": "file",
+          "children": []
+        },
+        {
+          "name": "session_20260312_091336.log",
+          "type": "file",
+          "children": []
+        },
+        {
+          "name": "session_20260312_091336_config.json",
+          "type": "file",
+          "children": []
+        },
+        {
+          "name": "session_20260312_091424.jsonl",
+          "type": "file",
+          "children": []
+        },
+        {
+          "name": "session_20260312_091424.log",
+          "type": "file",
+          "children": []
+        },
+        {
+          "name": "session_20260312_091424_config.json",
+          "type": "file",
+          "children": []
+        }
+      ]
+    },
+    {
+      "name": "results",
+      "type": "dir",
+      "children": [
+        {
+          "name": "session_20260312_091424",
+          "type": "dir",
+          "children": [
+            {
+              "name": "agent_reasoning.png",
+              "type": "file",
+              "children": []
+            },
+            {
+              "name": "confusion_matrix.png",
+              "type": "file",
+              "children": []
+            },
+            {
+              "name": "final_dashboard.png",
+              "type": "file",
+              "children": []
+            },
+            {
+              "name": "hyperparameter_evolution.png",
+              "type": "file",
+              "children": []
+            },
+            {
+              "name": "training_curves.png",
+              "type": "file",
+              "children": []
+            }
+          ]
+        },
+        {
+          "name": "session_20260312_091424_summary.json",
+          "type": "file",
+          "children": []
+        }
+      ]
+    },
+    {
+      "name": ".gitattributes",
+      "type": "file",
+      "children": []
+    },
+    {
+      "name": "agent.py",
+      "type": "file",
+      "children": []
+    },
+    {
+      "name": "config.py",
+      "type": "file",
+      "children": []
+    },
+    {
+      "name": "data_loader.py",
+      "type": "file",
+      "children": []
+    },
+    {
+      "name": "Important_Info.txt",
+      "type": "file",
+      "children": []
+    },
+    {
+      "name": "logger_setup.py",
+      "type": "file",
+      "children": []
+    },
+    {
+      "name": "main.py",
+      "type": "file",
+      "children": []
+    },
+    {
+      "name": "more_data.txt",
+      "type": "file",
+      "children": []
+    },
+    {
+      "name": "neural_network.py",
+      "type": "file",
+      "children": []
+    },
+    {
+      "name": "Random_Story.txt",
+      "type": "file",
+      "children": []
+    },
+    {
+      "name": "README.md",
+      "type": "file",
+      "children": []
+    },
+    {
+      "name": "requirements.txt",
+      "type": "file",
+      "children": []
+    },
+    {
+      "name": "visualizer.py",
+      "type": "file",
+      "children": []
+    }
+  ]
+}

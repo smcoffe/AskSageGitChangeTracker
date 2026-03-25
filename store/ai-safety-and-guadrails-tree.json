@@ -1,0 +1,51 @@
+{
+  "name": "C:\\Users\\sean.coffey\\OneDrive - West Point\\Documents\\Random_Repos\\AI_Safety_And_Guadrails",
+  "type": "dir",
+  "children": [
+    {
+      "name": ".gitattributes",
+      "type": "file",
+      "children": []
+    },
+    {
+      "name": ".gitignore",
+      "type": "file",
+      "children": []
+    },
+    {
+      "name": "Agentic AI Safety and Guardrails.tex",
+      "type": "file",
+      "children": []
+    },
+    {
+      "name": "Diagrams and Reference Sheet.tex",
+      "type": "file",
+      "children": []
+    },
+    {
+      "name": "Evaluating Agentic AI Safety and Performance.tex",
+      "type": "file",
+      "children": []
+    },
+    {
+      "name": "Lab - Evaluating Agentic AI.ipynb",
+      "type": "file",
+      "children": []
+    },
+    {
+      "name": "README.md",
+      "type": "file",
+      "children": []
+    },
+    {
+      "name": "requirements.txt",
+      "type": "file",
+      "children": []
+    },
+    {
+      "name": "Working-Lab - Evaluating Agentic AI.ipynb",
+      "type": "file",
+      "children": []
+    }
+  ]
+}

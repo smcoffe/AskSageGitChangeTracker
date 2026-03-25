@@ -1,0 +1,37 @@
+{
+  "_comments": {
+    "provider": "LLM provider to use: 'openai' (default, also works with vLLM) or 'asksage' (Ask Sage API). When set to 'asksage', the asksage_email and asksage_api_key fields are required.",
+    "openai_api_key": "Your OpenAI API key. Required when using the hosted OpenAI service. Leave as an empty string or omit when using a local vLLM server.",
+    "base_url": "Base URL of an OpenAI-compatible API endpoint, including the /v1 suffix. Set this to point at a local vLLM server, e.g. 'http://192.168.1.50:8000/v1'. Leave as an empty string (or omit) to use the hosted OpenAI API. Only used when provider is 'openai'.",
+    "asksage_email": "Your Ask Sage account email. Required when provider is 'asksage'.",
+    "asksage_api_key": "Your Ask Sage static API key. Required when provider is 'asksage'.",
+    "model": "Model name understood by the server. For OpenAI: gpt-4o, gpt-4o-mini, etc. For vLLM: the Hugging Face model ID used when the server was started. For Ask Sage: use models from the /get-models endpoint (e.g. gpt-4o, claude-3.5-sonnet).",
+    "repositories": "List of local git repos to monitor. name = display label, path = absolute path on disk",
+    "schedule_minutes": "How often to check for new commits (in minutes). Set to 0 to run once and exit.",
+    "lookback_commits": "Max number of recent commits to process on first run per repo",
+    "dashboard_port": "Local port for the web dashboard"
+  },
+  "provider": "asksage",
+  "openai_api_key": "",
+  "base_url": "https://api.genai.army.mil/",
+  "asksage_email": "sean.m.coffey2.mil@army.mil",
+  "asksage_api_key": "91c0cab9a76bffc68c81a10815a75109e952811b05820ee3265da7c40e649edc",
+  "model": "gpt35-16k",
+  "repositories": [
+    {
+      "name": "LLM_Course_Materials",
+      "path": "C:\\Users\\sean.coffey\\OneDrive - West Point\\Documents\\Random_Repos\\LLM_Courses"
+    },
+    {
+      "name": "Agentic_AI_Example_System",
+      "path": "C:\\Users\\sean.coffey\\OneDrive - West Point\\Documents\\ACI Ongoing Projects\\EW Projects\\Agentic_AI_Example_System"
+    },
+    {
+      "name": "AI_Safety_And_Guadrails",
+      "path": "C:\\Users\\sean.coffey\\OneDrive - West Point\\Documents\\Random_Repos\\AI_Safety_And_Guadrails"
+    }
+  ],
+  "schedule_minutes": 1,
+  "lookback_commits": 20,
+  "dashboard_port": 5500
+}

@@ -1,0 +1,4 @@
+gitpython
+openai
+requests
+schedule

@@ -1,0 +1,102 @@
+{
+  "name": "C:\\Users\\sean.coffey\\OneDrive - West Point\\Documents\\Random_Repos\\LLM_Courses",
+  "type": "dir",
+  "children": [
+    {
+      "name": "notebooks",
+      "type": "dir",
+      "children": [
+        {
+          "name": "01_tokenization.ipynb",
+          "type": "file",
+          "children": []
+        },
+        {
+          "name": "02_embeddings.ipynb",
+          "type": "file",
+          "children": []
+        },
+        {
+          "name": "03_attention_weights.ipynb",
+          "type": "file",
+          "children": []
+        },
+        {
+          "name": "04_transformer_heads.ipynb",
+          "type": "file",
+          "children": []
+        },
+        {
+          "name": "05_llm_parameters.ipynb",
+          "type": "file",
+          "children": []
+        },
+        {
+          "name": "06_prompt_engineering.ipynb",
+          "type": "file",
+          "children": []
+        }
+      ]
+    },
+    {
+      "name": ".gitattributes",
+      "type": "file",
+      "children": []
+    },
+    {
+      "name": "Agentic AI Components.tex",
+      "type": "file",
+      "children": []
+    },
+    {
+      "name": "Agentic_AI_Presenter_Script.docx",
+      "type": "file",
+      "children": []
+    },
+    {
+      "name": "LLM Output Parameters.tex",
+      "type": "file",
+      "children": []
+    },
+    {
+      "name": "More_Information.txt",
+      "type": "file",
+      "children": []
+    },
+    {
+      "name": "NETCOM_Agentic_AI_Overview_Final_Slides.pdf",
+      "type": "file",
+      "children": []
+    },
+    {
+      "name": "NETCOM_Agentic_AI_Saftey_And_Guardrails.pdf",
+      "type": "file",
+      "children": []
+    },
+    {
+      "name": "Notes_For_Later.txt",
+      "type": "file",
+      "children": []
+    },
+    {
+      "name": "Prompt Engineering.tex",
+      "type": "file",
+      "children": []
+    },
+    {
+      "name": "README.md",
+      "type": "file",
+      "children": []
+    },
+    {
+      "name": "Updated LLM Fundamentals.tex",
+      "type": "file",
+      "children": []
+    },
+    {
+      "name": "Updated Using LLMs.tex",
+      "type": "file",
+      "children": []
+    }
+  ]
+}
