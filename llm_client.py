@@ -70,8 +70,10 @@ def _extract_usage(response) -> dict:
 
 def _get_asksage_token(config: dict) -> str:
     """Obtain an Ask Sage access token from the config credentials."""
-    email = config.get("asksage_email", "")
-    api_key = config.get("asksage_api_key", "")
+    email = str(config.get("asksage_email", ""))
+    api_key = str(config.get("asksage_api_key", ""))
+    print(f"[llm_client] Email: {email}")
+    print(f"[llm_client] API Key: {api_key}")
     if not email or not api_key:
         raise RuntimeError(
             "Ask Sage provider requires 'asksage_email' and 'asksage_api_key' in config.json"

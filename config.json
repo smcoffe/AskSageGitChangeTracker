@@ -14,9 +14,9 @@
   "provider": "asksage",
   "openai_api_key": "",
   "base_url": "https://api.genai.army.mil/",
-  "asksage_email": "sean.m.coffey2.mil@army.mil",
-  "asksage_api_key": "91c0cab9a76bffc68c81a10815a75109e952811b05820ee3265da7c40e649edc",
-  "model": "gpt35-16k",
+  "asksage_email": "",
+  "asksage_api_key": "",
+  "model": "gpt-4o",
   "repositories": [
     {
       "name": "LLM_Course_Materials",

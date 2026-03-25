@@ -64,8 +64,20 @@ def get_access_token(email: str, api_key: str, *, force_refresh: bool = False) -
     except requests.RequestException as exc:
         raise RuntimeError(f"Ask Sage token request failed: {exc}") from exc
 
-    token = data.get("response") or data.get("token") or data.get("access_token")
-    if not token:
+    # The response structure may nest the token in several ways:
+    #   {"response": {"access_token": "eyJ..."}}
+    #   {"response": "eyJ..."}
+    #   {"access_token": "eyJ..."}
+    #   {"token": "eyJ..."}
+    raw = data.get("response") or data.get("token") or data.get("access_token")
+
+    # If the value is a dict, extract the actual token string from it
+    if isinstance(raw, dict):
+        token = raw.get("access_token") or raw.get("token") or raw.get("response")
+    else:
+        token = raw
+
+    if not token or not isinstance(token, str):
         raise RuntimeError(
             f"Ask Sage token response did not contain a token. Response: {data}"
         )
@@ -143,25 +155,55 @@ def query(
 def extract_response_text(response_data: dict) -> str:
     """Extract the LLM-generated text from an Ask Sage query response.
 
-    The response structure may vary slightly; this tries several known keys.
+    The response structure may vary; common layouts include:
+        {"data": {"response": "LLM text"}, "message": "ok", "response": "ok"}
+        {"response": "LLM text"}
+        {"data": "LLM text"}
+
+    We prioritise nested ``data.response`` over the top-level ``response`` key
+    because the top-level value is often just a status string like ``"ok"``.
     """
-    # The primary response field
-    text = response_data.get("response")
-    if isinstance(text, str) and text.strip():
-        return text.strip()
+    # Log the raw response keys for debugging
+    print(f"[asksage_client] DEBUG: response keys={list(response_data.keys())}", file=sys.stderr)
 
-    # Fallback: check for 'message' key
-    text = response_data.get("message")
-    if isinstance(text, str) and text.strip():
-        return text.strip()
-
-    # Fallback: check nested 'data' → 'response'
-    data = response_data.get("data", {})
+    # 1. Check nested 'data' → 'response' first (most common for actual LLM output)
+    data = response_data.get("data")
     if isinstance(data, dict):
         text = data.get("response")
-        if isinstance(text, str) and text.strip():
+        if isinstance(text, str) and text.strip() and text.strip().lower() != "ok":
+            return text.strip()
+        # Also check data → 'message' or data → 'content'
+        for key in ("message", "content", "text", "answer"):
+            text = data.get(key)
+            if isinstance(text, str) and text.strip() and text.strip().lower() != "ok":
+                return text.strip()
+    elif isinstance(data, str) and data.strip() and data.strip().lower() != "ok":
+        return data.strip()
+
+    # 2. Top-level 'response' — but skip short status-like values (e.g. "ok")
+    text = response_data.get("response")
+    if isinstance(text, str) and len(text.strip()) > 10:
+        return text.strip()
+
+    # 3. Top-level 'message' — skip short status values
+    text = response_data.get("message")
+    if isinstance(text, str) and len(text.strip()) > 10:
+        return text.strip()
+
+    # 4. Check any other plausible keys
+    for key in ("content", "text", "answer", "output", "result"):
+        text = response_data.get(key)
+        if isinstance(text, str) and text.strip() and text.strip().lower() != "ok":
             return text.strip()
 
+    # 5. Last resort: if 'response' or 'message' had *something*, return it
+    for key in ("response", "message"):
+        text = response_data.get(key)
+        if isinstance(text, str) and text.strip() and text.strip().lower() != "ok":
+            return text.strip()
+
+    # Nothing useful found — log the full response for debugging
+    print(f"[asksage_client] WARNING: Could not extract LLM text from response: {response_data}", file=sys.stderr)
     return ""
 
 
