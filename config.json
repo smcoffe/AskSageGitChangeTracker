@@ -14,8 +14,8 @@
   "provider": "asksage",
   "openai_api_key": "",
   "base_url": "https://api.genai.army.mil/",
-  "asksage_email": "",
-  "asksage_api_key": "",
+  "asksage_email": "sean.m.coffey2.mil@army.mil",
+  "asksage_api_key": "5484a7f7c513bdc27288f7c434261a3842a13a087b8137f57fc2ce08387e0e53",
   "model": "gpt-4o",
   "repositories": [
     {

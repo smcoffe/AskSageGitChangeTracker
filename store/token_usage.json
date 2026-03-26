@@ -52,5 +52,23 @@
     "prompt_tokens": 414,
     "completion_tokens": 119,
     "total_tokens": 533
+  },
+  {
+    "id": 7,
+    "timestamp": "2026-03-26T14:30:33.895603+00:00",
+    "repo": "AI_Safety_And_Guadrails",
+    "model": "gpt-4o",
+    "prompt_tokens": 136,
+    "completion_tokens": 122,
+    "total_tokens": 258
+  },
+  {
+    "id": 8,
+    "timestamp": "2026-03-26T14:30:33.907391+00:00",
+    "repo": "AI_Safety_And_Guadrails",
+    "model": "gpt-4o",
+    "prompt_tokens": 288,
+    "completion_tokens": 108,
+    "total_tokens": 396
   }
 ]
